@@ -13,6 +13,7 @@
 
             .selectedProduct.active {
                 display: inline-block;
+                text-align: center;
             }
 
             .product.selectedProduct:hover {
@@ -70,11 +71,18 @@
                 text-align: center;
                 font-weight: bold;
             }
-
-						pre{
-							text-align: center;
-							background: #f7f7f7;
+			pre{
+				text-align: center;
+                background: #f7f7f7;
           	}
+            #selectedProductSkuInput{
+                height: 0;
+                width: 0;
+                padding: 0;
+                margin: 0;
+                border: 0;
+                font-size: .9em;
+            }
         </style>
         <script src="https://unpkg.com/contentful-ui-extensions-sdk@3"></script>
     </head>
@@ -84,7 +92,8 @@
                 <div class="product-delete" product-delete>X</div>
                 <div class="selectedProductImage product-image" product-image></div>
                 <div class="selectedProductTitle product-title" product-title></div>
-								<pre class="selectedProductSku product-sku" product-sku></pre>
+                <pre class="selectedProductSku product-sku" product-sku></pre>
+                <button onclick="copySkuToClipboard()">Copy Sku</button><input id="selectedProductSkuInput" type="text" value="">
             </div>
             <input id="productQuery" class="cf-form-input" type="string" placeholder="Search for products..." />
             <div class="cf-form-label">
@@ -98,13 +107,18 @@
             (function(b,c){var $=b.jQuery||b.Cowboy||(b.Cowboy={}),a;$.throttle=a=function(e,f,j,i){var h,d=0;if(typeof f!=="boolean"){i=j;j=f;f=c}function g(){var o=this,m=+new Date()-d,n=arguments;function l(){d=+new Date();j.apply(o,n)}function k(){h=c}if(i&&!h){l()}h&&clearTimeout(h);if(i===c&&m>e){l()}else{if(f!==true){h=setTimeout(i?k:l,i===c?e-m:e)}}}if($.guid){g.guid=j.guid=j.guid||$.guid++}return g};$.debounce=function(d,e,f){return f===c?a(d,e,false):a(d,f,e!==false)}})(this);
         </script>
         <script>
+            function copySkuToClipboard(){
+              document.getElementById("selectedProductSkuInput").select();
+              document.execCommand("copy");
+            }
+            
             window.contentfulExtension.init( extension => {
                 // Size iframe
                 extension.window.startAutoResizer();
 
                 const $selectedProduct = $('[product-wrapper]');
                 const $selectedProductTitle = $('[product-title]');
-								const $selectedProductSku = $('[product-sku]');
+				const $selectedProductSku = $('[product-sku]');
                 const $selectedProductImage = $('[product-image]');
                 const $selectedDelete = $('[product-delete]');
                 const $products = $('.product-grid');
@@ -115,7 +129,8 @@
                 if (value && !jQuery.isEmptyObject(value)) {
                     $selectedProduct.addClass('active');
                     $selectedProductTitle.text(value.title);
-										$selectedProductSku.text(value.variants.edges[0].node.sku);
+                  $selectedProductSku.text(value.variants.edges[0].node.sku);
+                  $('#selectedProductSkuInput').val(value.variants.edges[0].node.sku);
                     const initImage = value.images && value.images.edges && value.images.edges.length ? value.images.edges[0].node.src : '';
                     $selectedProductImage.css('background-image', 'url(' + initImage + ')');
                 }
@@ -152,7 +167,8 @@
                         if (selectedProduct) {
                             $selectedProduct.addClass('active');
                             $selectedProductTitle.text(selectedProduct.title);
-														$selectedProductSku.text(selectedProduct.variants.edges[0].node.sku);
+                          $selectedProductSku.text(selectedProduct.variants.edges[0].node.sku);
+                          $('#selectedProductSkuInput').val(selectedProduct.variants.edges[0].node.sku);
                             const selectedImage = selectedProduct.images && selectedProduct.images.edges && selectedProduct.images.edges.length ? selectedProduct.images.edges[0].node.src : '';
                             $selectedProductImage.css('background-image', 'url(' +selectedImage + ')');
                         } else {
