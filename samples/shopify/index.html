@@ -81,7 +81,10 @@
                 padding: 0;
                 margin: 0;
                 border: 0;
-                font-size: .9em;
+            }
+            #copyButton{
+                font-size:1em;
+                cursor:pointer !important;
             }
         </style>
         <script src="https://unpkg.com/contentful-ui-extensions-sdk@3"></script>
@@ -93,7 +96,7 @@
                 <div class="selectedProductImage product-image" product-image></div>
                 <div class="selectedProductTitle product-title" product-title></div>
                 <pre class="selectedProductSku product-sku" product-sku></pre>
-                <button onclick="copySkuToClipboard()">Copy Sku</button><input id="selectedProductSkuInput" type="text" value="">
+                <button id="copyButton" onclick="copySkuToClipboard()">Copy Sku</button><input id="selectedProductSkuInput" type="text" value="">
             </div>
             <input id="productQuery" class="cf-form-input" type="string" placeholder="Search for products..." />
             <div class="cf-form-label">
