@@ -162,6 +162,9 @@
 
                         // After Product selected, get rid of grid
                         $products.empty();
+                        
+                        //set product code
+                        extension.entry.fields.productCode.setValue($selectedProductSku.text().replace('-WLL','').replace(/ /g,''));
                     });
                 }
 
