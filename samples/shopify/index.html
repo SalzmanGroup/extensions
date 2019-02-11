@@ -164,7 +164,10 @@
                         $products.empty();
                         
                         //set product code
-                        extension.entry.fields.productCode.setValue($selectedProductSku.text().replace('-WLL','').replace(/ /g,'').replace('.',''));
+                        if(!!extension.entry.fields.productCode){
+                          extension.entry.fields.productCode.setValue($selectedProductSku.text().replace('-WLL','').replace(/ /g,'').replace('.',''));
+                        }
+                      
                     });
                 }
 
